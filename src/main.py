@@ -16,8 +16,12 @@ class PlotCanvas(FigureCanvas):
         x = np.linspace(-10, 10, 400)
         for eqn in eqns:
             try:
-                eqn = eqn.replace('y=', '').replace('^', '**')
+                eqn = eqn.lower().replace('y=', '').replace('^', '**')
                 eqn = re.sub(r'(\d)x', r'\1*x', eqn) 
+                 # Add support for trigonometric functions
+                eqn = eqn.replace('sin', 'np.sin')
+                eqn = eqn.replace('cos', 'np.cos')
+                eqn = eqn.replace('tan', 'np.tan')
                 y = eval(eqn)
                 self.ax.plot(x, y, label=eqn)
             except Exception as e:
